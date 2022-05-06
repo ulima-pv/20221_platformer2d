@@ -17,17 +17,31 @@ public class HeroController : MonoBehaviour
 
     private Rigidbody2D mRigidBody;
     private float mMovement;
+    private Animator mAnimator;
+    private SpriteRenderer mSpriteRenderer;
 
     private void Start()
     {
         mRigidBody = GetComponent<Rigidbody2D>();
+        mAnimator = GetComponent<Animator>();
+        mSpriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void Update()
     {
         mMovement = Input.GetAxis("Horizontal");
+        mAnimator.SetInteger("Move", mMovement == 0f ? 0 : 1);
+        
+        if (mMovement < 0f)
+        {
+            mSpriteRenderer.flipX = true;
+        } else if (mMovement > 0)
+        {
+            mSpriteRenderer.flipX = false;
+        }
 
-        if (Input.GetButtonDown("Jump") && !IsOnAir())
+        bool isOnAir = IsOnAir();
+        if (Input.GetButtonDown("Jump") && !isOnAir)
         {
             Jump();
         }
@@ -71,6 +85,7 @@ public class HeroController : MonoBehaviour
             Vector2.down,
             raycastDistance
         );
+        mAnimator.SetBool("IsJumping", !hit);
 
         /*Color rayColor;
         if (hit)
