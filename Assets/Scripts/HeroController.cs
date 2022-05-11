@@ -15,16 +15,22 @@ public class HeroController : MonoBehaviour
     public float jumpForce;
     public float fallMultiplier;
 
+    [Header("Fire")]
+    public GameObject fireball; //prefab
+    private Transform mFireballPoint;
+
     private Rigidbody2D mRigidBody;
     private float mMovement;
     private Animator mAnimator;
     private SpriteRenderer mSpriteRenderer;
+    
 
     private void Start()
     {
         mRigidBody = GetComponent<Rigidbody2D>();
         mAnimator = GetComponent<Animator>();
         mSpriteRenderer = GetComponent<SpriteRenderer>();
+        mFireballPoint = transform.Find("FireballPoint");
     }
 
     private void Update()
@@ -45,7 +51,13 @@ public class HeroController : MonoBehaviour
         {
             Jump();
         }
+
+        if (Input.GetButtonDown("Fire1"))
+        {
+            Fire();
+        }
     }
+
 
     private void FixedUpdate()
     {
@@ -100,5 +112,19 @@ public class HeroController : MonoBehaviour
         return !hit;
         //return hit == null ? true : false;
         
+    }
+    private void Fire()
+    {
+        mFireballPoint.GetComponent<ParticleSystem>().Play(); // ejecutamos PS
+        Instantiate(fireball, mFireballPoint);
+    }
+
+    public Vector3 GetDirection()
+    {
+        return new Vector3(
+            mSpriteRenderer.flipX ? -1f : 1f,
+            0f,
+            0f
+        );
     }
 }
