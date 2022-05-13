@@ -40,10 +40,20 @@ public class HeroController : MonoBehaviour
         
         if (mMovement < 0f)
         {
-            mSpriteRenderer.flipX = true;
+            //mSpriteRenderer.flipX = true;
+            transform.rotation = Quaternion.Euler(
+                0f,
+                180f,
+                0f
+            );
         } else if (mMovement > 0)
         {
-            mSpriteRenderer.flipX = false;
+            //mSpriteRenderer.flipX = false;
+            transform.rotation = Quaternion.Euler(
+                0f,
+                0f,
+                0f
+            );
         }
 
         bool isOnAir = IsOnAir();
@@ -116,13 +126,15 @@ public class HeroController : MonoBehaviour
     private void Fire()
     {
         mFireballPoint.GetComponent<ParticleSystem>().Play(); // ejecutamos PS
-        Instantiate(fireball, mFireballPoint);
+        GameObject obj = Instantiate(fireball, mFireballPoint);
+        obj.transform.parent = null;
+        
     }
 
     public Vector3 GetDirection()
     {
         return new Vector3(
-            mSpriteRenderer.flipX ? -1f : 1f,
+            transform.rotation.y == 0f ? 1f : -1f,
             0f,
             0f
         );
