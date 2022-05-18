@@ -1,6 +1,7 @@
 
 using UnityEngine;
 
+
 public class GameManager : MonoBehaviour
 {
     private static GameManager mInstance;
@@ -15,5 +16,10 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         mInstance = this;
+    }
+
+    private void Start()
+    {
+        
     }
 }

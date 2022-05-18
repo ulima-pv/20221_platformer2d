@@ -6186,6 +6186,7 @@ GameObject:
   - component: {fileID: 1056137681}
   - component: {fileID: 1056137682}
   - component: {fileID: 1056137683}
+  - component: {fileID: 1056137684}
   m_Layer: 0
   m_Name: Hero
   m_TagString: Untagged
@@ -6304,7 +6305,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1056137677}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5c56ca28d9c169f40b69b599d39a84d8, type: 3}
   m_Name: 
@@ -6336,6 +6337,22 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1056137684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1056137677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10a1e1ed57fd3c746975dc180eb21288, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  accel: 2
+  deccel: 1
+  speedExp: 2
 --- !u!1 &1064829048
 GameObject:
   m_ObjectHideFlags: 0
