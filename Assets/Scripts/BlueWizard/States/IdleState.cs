@@ -3,6 +3,7 @@ using UnityEngine;
 public class IdleState : State<BlueWizardController>
 {
     private float mMovement;
+    private bool mIsJumpPressed = false;
 
     public IdleState(BlueWizardController mController, 
         FiniteStateMachine<BlueWizardController> mFSM) : base(mController, mFSM)
@@ -19,6 +20,7 @@ public class IdleState : State<BlueWizardController>
     public override void OnExit()
     {
         base.OnExit();
+        mIsJumpPressed = false;
         Debug.Log("Saliendo del estado IDLESTATE");
     }
 
@@ -26,6 +28,7 @@ public class IdleState : State<BlueWizardController>
     {
         base.OnHandleInput();
         mMovement = Input.GetAxis("Horizontal");
+        if (Input.GetButtonDown("Jump")) mIsJumpPressed = true;
     }
 
     public override void OnLogicUpdate()
@@ -34,6 +37,10 @@ public class IdleState : State<BlueWizardController>
         if (mMovement != 0f)
         {
             mFSM.ChangeState(mController.RunningState);
+        }
+        if (mIsJumpPressed)
+        {
+            mFSM.ChangeState(mController.JumpingState);
         }
     }
 
