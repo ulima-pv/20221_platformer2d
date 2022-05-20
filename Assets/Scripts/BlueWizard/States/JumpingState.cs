@@ -8,6 +8,7 @@ public class JumpingState : State<BlueWizardController>
     private Transform mTransform;
     private Animator mAnimator;
     private bool mFirstJump = true;
+    private float mMovement;
 
     public JumpingState(BlueWizardController mController, 
         FiniteStateMachine<BlueWizardController> mFSM) : base(mController, mFSM)
@@ -21,6 +22,7 @@ public class JumpingState : State<BlueWizardController>
     {
         base.OnEnter();
         Debug.Log("Entrando al estado JUMPINGSTATE");
+        mAnimator.SetBool("IsJumping", true);
     }
 
     public override void OnExit()
@@ -33,6 +35,7 @@ public class JumpingState : State<BlueWizardController>
     public override void OnHandleInput()
     {
         base.OnHandleInput();
+        mMovement = Input.GetAxis("Horizontal");
     }
 
     public override void OnLogicUpdate()
@@ -54,11 +57,13 @@ public class JumpingState : State<BlueWizardController>
             // Esta cayendo
             mRigidBody.velocity += (mController.fallMultiplier - 1) *
                 Time.fixedDeltaTime * Physics2D.gravity;
+            if (!IsOnAir())
+            {
+                mFSM.ChangeState(mController.IdleState);
+            }
         }
-        if (!IsOnAir() && mRigidBody.velocity.y == 0f)
-        {
-            mFSM.ChangeState(mController.IdleState);
-        }
+        Rotate();
+        Move();
     }
 
     private bool IsOnAir()
@@ -69,7 +74,6 @@ public class JumpingState : State<BlueWizardController>
             Vector2.down,
             mController.raycastDistance
         );
-        Debug.Log(!hit);
         mAnimator.SetBool("IsJumping", !hit);
 
         /*Color rayColor;
@@ -85,5 +89,38 @@ public class JumpingState : State<BlueWizardController>
         return !hit;
         //return hit == null ? true : false;
 
+    }
+    private void Move()
+    {
+        float targetSpeed = mMovement * mController.moveSpeed;
+        float speedDif = targetSpeed - mRigidBody.velocity.x;
+        float accelRate = Mathf.Abs(
+            targetSpeed) > 0.01f ? mController.accel : mController.deccel;
+        float movement = Mathf.Pow(
+            accelRate * Mathf.Abs(speedDif),
+            mController.speedExp
+        ) * Mathf.Sign(speedDif);
+
+        mRigidBody.AddForce(movement * Vector2.right);
+    }
+
+    private void Rotate()
+    {
+        if (mMovement < 0f)
+        {
+            mTransform.rotation = Quaternion.Euler(
+                0f,
+                180f,
+                0f
+            );
+        }
+        else if (mMovement > 0f)
+        {
+            mTransform.rotation = Quaternion.Euler(
+                0f,
+                0f,
+                0f
+            );
+        }
     }
 }

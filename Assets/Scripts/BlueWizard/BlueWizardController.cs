@@ -15,6 +15,9 @@ public class BlueWizardController : MonoBehaviour
     public float jumpForce;
     public float fallMultiplier;
 
+    [Header("Fire")]
+    public GameObject fireball; //prefab
+
     public State<BlueWizardController> IdleState { get; private set; }
     public State<BlueWizardController> RunningState { get; private set; }
     public State<BlueWizardController> JumpingState { get; private set; }

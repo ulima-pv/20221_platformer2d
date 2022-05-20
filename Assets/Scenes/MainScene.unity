@@ -6356,6 +6356,7 @@ MonoBehaviour:
   raycastDistance: 0.1
   jumpForce: 7
   fallMultiplier: 4
+  fireball: {fileID: 1946527328671409815, guid: 52b403d462497a24284347c42f4f71da, type: 3}
 --- !u!1 &1064829048
 GameObject:
   m_ObjectHideFlags: 0
